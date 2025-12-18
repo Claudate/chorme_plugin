@@ -107,7 +107,7 @@ R2_PUBLIC_URL="https://your-domain.com"
 # 选项2: 使用 Supabase Storage（使用上面的 SUPABASE_URL 和密钥）
 ```
 
-详细配置说明请查看 [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)
+详细配置说明请查看 [部署指南](./docs/guides/DEPLOYMENT_GUIDE.md)
 
 ### 4. 初始化数据库
 ```bash
@@ -150,13 +150,20 @@ content-publisher/
 │   └── ui/                  # UI 组件
 ├── drizzle/                 # 数据库迁移
 ├── public/                  # 静态资源
-└── 文档/
-    ├── TECH_STACK.md            # 技术架构文档
-    ├── PLUGIN_ARCHITECTURE.md   # 插件架构文档
-    ├── PLUGIN_EXTENSION_GUIDE.md # 插件扩展指南
-    ├── MIGRATION_TO_SUPABASE.md # 数据库迁移指南
-    ├── DEPLOYMENT_GUIDE.md      # 部署指南
-    └── CUSTOMIZATION_GUIDE.md   # 定制指南
+└── docs/                    # 文档目录
+    ├── README.md            # 文档中心索引
+    ├── TECH_STACK.md        # 技术架构文档
+    ├── guides/              # 指南文档
+    │   ├── QUICK_START.md   # 快速开始指南
+    │   ├── DEPLOYMENT_GUIDE.md      # 部署指南
+    │   ├── CUSTOMIZATION_GUIDE.md   # 定制指南
+    │   ├── PLUGIN_ARCHITECTURE.md   # 插件架构文档
+    │   └── PLUGIN_EXTENSION_GUIDE.md # 插件扩展指南
+    ├── setup/               # 数据库设置
+    │   ├── DATABASE_SETUP.md        # 数据库设置指南
+    │   └── SUPABASE_SETUP.md        # Supabase 设置
+    └── migration/           # 迁移指南
+        └── MIGRATION_TO_SUPABASE.md # 数据库迁移指南
 ```
 
 ## 🔧 开发指南
@@ -188,7 +195,7 @@ npm run type-check       # TypeScript 类型检查
    - 点击"加载已解压的扩展程序"
    - 选择 `plugin` 目录
 
-详细开发指南请查看 [PLUGIN_ARCHITECTURE.md](./PLUGIN_ARCHITECTURE.md)
+详细开发指南请查看 [插件架构文档](./docs/guides/PLUGIN_ARCHITECTURE.md)
 
 ## 🌟 主要功能
 
@@ -263,12 +270,16 @@ npm run type-check       # TypeScript 类型检查
 
 ## 📚 文档
 
-- [技术架构文档](./TECH_STACK.md) - 详细的技术栈和架构说明
-- [插件架构文档](./PLUGIN_ARCHITECTURE.md) - Chrome 扩展的实现原理
-- [插件扩展指南](./PLUGIN_EXTENSION_GUIDE.md) - 如何添加新平台支持
-- [数据库迁移指南](./MIGRATION_TO_SUPABASE.md) - 从 Turso 迁移到 Supabase
-- [部署指南](./DEPLOYMENT_GUIDE.md) - 部署到 Vercel 或自己的服务器
-- [定制指南](./CUSTOMIZATION_GUIDE.md) - 如何将项目定制为自己的品牌
+完整文档请访问 **[📖 文档中心](./docs/README.md)**
+
+### 快速链接
+- [📚 快速开始指南](./docs/guides/QUICK_START.md) - 30分钟快速上手
+- [🚀 部署指南](./docs/guides/DEPLOYMENT_GUIDE.md) - 完整部署流程
+- [🎨 定制指南](./docs/guides/CUSTOMIZATION_GUIDE.md) - 品牌定制说明
+- [🔌 插件架构文档](./docs/guides/PLUGIN_ARCHITECTURE.md) - Chrome 扩展实现原理
+- [📦 技术架构文档](./docs/TECH_STACK.md) - 技术栈详解
+- [🗄️ 数据库设置指南](./docs/setup/DATABASE_SETUP.md) - 数据库配置
+- [🔄 数据库迁移指南](./docs/migration/MIGRATION_TO_SUPABASE.md) - 迁移指南
 
 ## 📞 联系与支持
 
