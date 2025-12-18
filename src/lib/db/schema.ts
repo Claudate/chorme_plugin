@@ -2,7 +2,7 @@ import { pgTable, text, integer, boolean, timestamp, varchar } from 'drizzle-orm
 import { createId } from '@paralleldrive/cuid2';
 
 // 用户表
-export const users = pgTable('users', {
+export const users = pgTable('zi_users', {
   id: text('id').primaryKey().$defaultFn(() => createId()),
   email: varchar('email', { length: 255 }).notNull().unique(),
   name: varchar('name', { length: 255 }),
@@ -24,7 +24,7 @@ export const users = pgTable('users', {
 });
 
 // 文章表
-export const articles = pgTable('articles', {
+export const articles = pgTable('zi_articles', {
   id: text('id').primaryKey().$defaultFn(() => createId()),
   userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
   title: text('title').notNull(),
@@ -38,7 +38,7 @@ export const articles = pgTable('articles', {
 });
 
 // 发布记录表
-export const publishRecords = pgTable('publish_records', {
+export const publishRecords = pgTable('zi_publish_records', {
   id: text('id').primaryKey().$defaultFn(() => createId()),
   articleId: text('article_id').notNull().references(() => articles.id, { onDelete: 'cascade' }),
   userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
@@ -54,7 +54,7 @@ export const publishRecords = pgTable('publish_records', {
 });
 
 // 发布预设表
-export const publishPresets = pgTable('publish_presets', {
+export const publishPresets = pgTable('zi_publish_presets', {
   id: text('id').primaryKey().$defaultFn(() => createId()),
   userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
   name: varchar('name', { length: 255 }).notNull(), // 预设名称
@@ -79,7 +79,7 @@ export const publishPresets = pgTable('publish_presets', {
 });
 
 // 兑换码表
-export const redeemCodes = pgTable('redeem_codes', {
+export const redeemCodes = pgTable('zi_redeem_codes', {
   id: text('id').primaryKey().$defaultFn(() => createId()),
   code: varchar('code', { length: 50 }).notNull().unique(), // 兑换码
   type: varchar('type', { length: 20, enum: ['monthly', 'yearly'] }).notNull(), // 兑换码类型：月卡、年卡
@@ -93,7 +93,7 @@ export const redeemCodes = pgTable('redeem_codes', {
 });
 
 // 图片使用统计表
-export const imageUsageStats = pgTable('image_usage_stats', {
+export const imageUsageStats = pgTable('zi_image_usage_stats', {
   id: text('id').primaryKey().$defaultFn(() => createId()),
   userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
   month: varchar('month', { length: 7 }).notNull(), // 格式：YYYY-MM
@@ -103,7 +103,7 @@ export const imageUsageStats = pgTable('image_usage_stats', {
 });
 
 // 视频内容元数据表
-export const videoContents = pgTable('video_contents', {
+export const videoContents = pgTable('zi_video_contents', {
   id: text('id').primaryKey().$defaultFn(() => createId()),
   articleId: text('article_id').notNull().references(() => articles.id, { onDelete: 'cascade' }),
   userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),

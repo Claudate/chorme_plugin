@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "述而作助手",
-  "version": "1.3.6",
+  "version": "1.3.7",
   "description": "述而作助手 - 智能检测剪贴板内容并填充到公众号编辑器",
   "permissions": [
     "activeTab",
