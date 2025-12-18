@@ -25,12 +25,38 @@ async function migrateVercel() {
   }
 
   console.log('🔗 连接到 Vercel 数据库...');
-  console.log('📍 数据库地址:', connectionString.split('@')[1]?.split('/')[0] || 'unknown');
+
+  // Vercel 不支持 IPv6，必须使用 Supabase Pooler (Supavisor)
+  // 参考: https://supabase.com/docs/guides/troubleshooting/supabase--your-network-ipv4-and-ipv6-compatibility-cHe3BP
+  let finalConnectionString = connectionString;
+
+  if (process.env.VERCEL) {
+    // 检查是否使用直连地址 (db.xxx.supabase.co)
+    if (connectionString.includes('db.') && connectionString.includes('.supabase.co')) {
+      console.error('❌ 错误：DATABASE_URL 使用了直连地址 (db.xxx.supabase.co)');
+      console.error('   Vercel 不支持 IPv6，必须使用 Supabase Pooler (Supavisor)');
+      console.error('');
+      console.error('   请在 Vercel Dashboard 更新 DATABASE_URL 为 Pooler 地址：');
+      console.error('   格式: postgresql://postgres.[REF]:[PWD]@aws-0-[REGION].pooler.supabase.com:6543/postgres');
+      console.error('');
+      console.error('   📖 参考文档: https://supabase.com/docs/guides/database/connecting-to-postgres');
+      throw new Error('DATABASE_URL must use pooler address on Vercel (IPv6 not supported)');
+    }
+
+    // 如果使用 pooler 但端口是 5432，建议切换到 6543 (Transaction Mode)
+    if (connectionString.includes('pooler.supabase.com:5432')) {
+      finalConnectionString = connectionString.replace(':5432', ':6543');
+      console.log('⚠️  已自动从 Session Mode (5432) 切换到 Transaction Mode (6543)');
+      console.log('   Transaction Mode 更适合 Serverless 环境');
+    }
+  }
+
+  console.log('📍 数据库地址:', finalConnectionString.split('@')[1]?.split('/')[0] || 'unknown');
 
   const client = new Client({
-    connectionString,
+    connectionString: finalConnectionString,
     ssl: { rejectUnauthorized: false },
-    connectionTimeoutMillis: 10000,
+    connectionTimeoutMillis: 15000,
   });
 
   try {
@@ -149,9 +175,11 @@ async function migrateVercel() {
     console.error('');
     console.error('💡 调试提示:');
     console.error('   1. 检查 DATABASE_URL 是否正确');
-    console.error('   2. 确保使用端口 6543 (连接池)');
+    console.error('   2. 确保使用连接池端口 6543 而非直连端口 5432');
+    console.error('      正确格式: postgresql://user:pass@host.supabase.co:6543/postgres');
     console.error('   3. 检查数据库是否在线');
-    console.error('   4. 查看 Vercel Function Logs 获取更多信息');
+    console.error('   4. Vercel 环境可能不支持 IPv6，确保使用 pooler 连接');
+    console.error('   5. 查看 Vercel Function Logs 获取更多信息');
     throw error;
   } finally {
     await client.end();
