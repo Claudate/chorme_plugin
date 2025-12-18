@@ -29,11 +29,14 @@ export async function GET() {
   // 检查数据库连接
   try {
     const result = await db.execute(sql`SELECT 1 as ok`);
-    checks.databaseConnection = result.rows?.[0]?.ok === 1;
+    // postgres-js 驱动返回的是数组，不是带 rows 的对象
+    const resultArray = Array.isArray(result) ? result : [];
+    checks.databaseConnection = resultArray[0]?.ok === 1;
 
     // 获取数据库版本
     const versionResult = await db.execute(sql`SELECT version()`);
-    checks.databaseVersion = versionResult.rows?.[0]?.version || 'unknown';
+    const versionArray = Array.isArray(versionResult) ? versionResult : [];
+    checks.databaseVersion = versionArray[0]?.version || 'unknown';
   } catch (error) {
     checks.databaseConnection = false;
     checks.databaseError = error instanceof Error ? error.message : 'Unknown error';
@@ -46,7 +49,8 @@ export async function GET() {
       FROM information_schema.tables
       WHERE table_schema = 'public' AND table_name LIKE 'zi_%'
     `);
-    const tableCount = Number(tables.rows?.[0]?.count || 0);
+    const tablesArray = Array.isArray(tables) ? tables : [];
+    const tableCount = Number(tablesArray[0]?.count || 0);
     checks.tablesExist = tableCount > 0;
     checks.tableCount = tableCount;
 
@@ -58,7 +62,8 @@ export async function GET() {
         WHERE table_schema = 'public' AND table_name LIKE 'zi_%'
         ORDER BY table_name
       `);
-      checks.tables = tableList.rows?.map((row: any) => row.table_name) || [];
+      const tableListArray = Array.isArray(tableList) ? tableList : [];
+      checks.tables = tableListArray.map((row: any) => row.table_name);
     }
   } catch (error) {
     checks.tablesExist = false;
@@ -71,7 +76,8 @@ export async function GET() {
       SELECT COUNT(*) as count
       FROM drizzle_migrations
     `);
-    checks.migrationsApplied = Number(migrations.rows?.[0]?.count || 0);
+    const migrationsArray = Array.isArray(migrations) ? migrations : [];
+    checks.migrationsApplied = Number(migrationsArray[0]?.count || 0);
   } catch (error) {
     // 迁移表可能不存在
     checks.migrationsApplied = 0;
