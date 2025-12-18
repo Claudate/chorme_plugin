@@ -124,31 +124,54 @@ git push
 
 以下是你需要在 Vercel 中设置的完整环境变量列表:
 
-### 数据库 (必需)
+### 1. 数据库 (必需)
 ```bash
-# 从 Supabase Integration 自动同步,或手动设置其中之一:
+# 方式1: 从 Supabase Integration 自动同步 (推荐)
 POSTGRES_URL=postgresql://postgres.[REF]:[PWD]@aws-0-[REGION].pooler.supabase.com:6543/postgres
-# 或
+
+# 方式2: 手动设置
 DATABASE_URL=postgresql://postgres.[REF]:[PWD]@aws-0-[REGION].pooler.supabase.com:6543/postgres
 ```
 
-### Supabase (如果使用客户端 SDK)
+**重要**:
+- 必须使用 **Pooler 地址** (包含 `pooler.supabase.com`)
+- 端口使用 **6543** (Transaction Mode，适合 Serverless)
+- 不要使用直连地址 (db.xxx.supabase.co)
+
+### 2. NextAuth 认证 (必需)
 ```bash
+# NextAuth 密钥 (用于加密 JWT)
+# 生成方式: openssl rand -base64 32
+NEXTAUTH_SECRET=your-random-secret-32-chars-or-more
+
+# 应用 URL (必须是你的实际域名)
+NEXTAUTH_URL=https://your-domain.vercel.app
+```
+
+**关键**: 如果缺少 `NEXTAUTH_SECRET`,会导致 "There is a problem with the server configuration" 错误!
+
+### 3. Supabase 公开 API (可选)
+```bash
+# 如果你使用 Supabase 客户端 SDK
 NEXT_PUBLIC_SUPABASE_URL=https://[PROJECT_REF].supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
 SUPABASE_SERVICE_ROLE_KEY=eyJ...  # 注意:不要加 NEXT_PUBLIC_ 前缀
 ```
 
-### NextAuth (必需)
+### 4. 文件存储 (可选)
 ```bash
-NEXTAUTH_URL=https://your-domain.vercel.app
-NEXTAUTH_SECRET=your-secret-key-here
+# Cloudflare R2
+R2_ACCOUNT_ID=your-account-id
+R2_ACCESS_KEY_ID=your-access-key
+R2_SECRET_ACCESS_KEY=your-secret-key
+R2_BUCKET_NAME=your-bucket-name
+R2_PUBLIC_URL=https://your-r2-domain.com
 ```
 
-### 其他服务
+### 5. 管理员配置 (可选)
 ```bash
-# 根据你的项目需求添加其他环境变量
-# 例如: R2存储, 微信公众号, 知乎等
+# 管理员邮箱列表 (逗号分隔)
+ADMIN_EMAILS=admin@example.com,admin2@example.com
 ```
 
 ## 调试技巧
