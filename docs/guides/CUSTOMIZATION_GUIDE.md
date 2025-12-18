@@ -28,12 +28,12 @@ export const metadata: Metadata = {
 
 ### 1.3 更新网站配置
 
-**文件**: 搜索项目中所有包含"ziliu"或"字流"的文件
+**文件**: 搜索项目中所有包含"ziliu"或"述而作"的文件
 
 ```bash
 # 在项目根目录执行
 grep -r "ziliu" src/
-grep -r "字流" src/
+grep -r "述而作" src/
 ```
 
 需要修改的主要文件：
@@ -57,7 +57,7 @@ grep -r "字流" src/
 
 **文件**: `plugin/plugins/config.js`
 
-搜索并替换所有"字流"、"Ziliu"等品牌词。
+搜索并替换所有"述而作"、"Ziliu"等品牌词。
 
 ### 1.5 更新环境变量
 
@@ -461,7 +461,7 @@ rclone sync r2:your-bucket s3:backup-bucket
 - [ ] 已设置 CSP 和安全头
 
 ### 品牌
-- [ ] 已更新所有"字流"、"ziliu"品牌词
+- [ ] 已更新所有"述而作"、"ziliu"品牌词
 - [ ] Logo 和图标已更换
 - [ ] 颜色主题已自定义
 - [ ] 网站标题和描述已修改

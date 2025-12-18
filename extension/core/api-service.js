@@ -327,4 +327,4 @@ class ApiService {
 // 创建全局实例
 window.ZiliuApiService = new ApiService();
 
-console.log('✅ 字流API服务已加载');
+console.log('✅ 述而作API服务已加载');

@@ -314,4 +314,4 @@ class ConfigService {
 // 创建全局实例
 window.ZiliuConfigService = new ConfigService();
 
-console.log('✅ 字流配置服务已加载');
+console.log('✅ 述而作配置服务已加载');

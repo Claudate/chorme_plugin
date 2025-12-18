@@ -1,5 +1,5 @@
 /**
- * 字流助手 - UI面板组件
+ * 述而作助手 - UI面板组件
  * 新架构简化版UI界面
  */
 class ZiliuPanel {
@@ -13,11 +13,11 @@ class ZiliuPanel {
    * 初始化面板
    */
   init() {
-    console.log('🎨 初始化字流面板...');
+    console.log('🎨 初始化述而作面板...');
     this.loadStyles();
     this.createPanel();
     this.bindEvents();
-    console.log('✅ 字流面板初始化完成');
+    console.log('✅ 述而作面板初始化完成');
   }
 
   /**
@@ -198,7 +198,7 @@ class ZiliuPanel {
     this.panel.innerHTML = `
       <div class="ziliu-panel-header">
         <div class="ziliu-header-left">
-          <h3 class="ziliu-panel-title">字流助手</h3>
+          <h3 class="ziliu-panel-title">述而作助手</h3>
           <span class="ziliu-platform-info">${this.getCurrentPlatformName()}</span>
         </div>
         <button class="ziliu-close-btn" id="ziliu-close-btn">×</button>
@@ -232,7 +232,7 @@ class ZiliuPanel {
     toggleBtn.id = 'ziliu-toggle-btn';
     toggleBtn.className = 'ziliu-toggle-btn';
     toggleBtn.innerHTML = '字';
-    toggleBtn.title = '打开字流助手';
+    toggleBtn.title = '打开述而作助手';
     
     document.body.appendChild(toggleBtn);
     this.toggleBtn = toggleBtn;

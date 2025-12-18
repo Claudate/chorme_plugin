@@ -53,7 +53,7 @@ export default function SignUpPage() {
             </div>
           </div>
           <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            字流
+            述而作
           </h1>
           <p className="mt-2 text-gray-600">让文字如流水般顺畅发布</p>
         </div>
@@ -62,7 +62,7 @@ export default function SignUpPage() {
           <CardHeader className="text-center pb-8">
             <CardTitle className="text-2xl font-bold text-gray-900">创建账户</CardTitle>
             <CardDescription className="text-gray-600 text-base">
-              填写信息来创建您的字流账户
+              填写信息来创建您的述而作账户
             </CardDescription>
           </CardHeader>
           <CardContent>

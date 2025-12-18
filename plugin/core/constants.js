@@ -1,5 +1,5 @@
 /**
- * 字流插件统一配置常量
+ * 述而作插件统一配置常量
  */
 class ZiliuConstants {
   // 环境配置 - 生产环境
@@ -73,5 +73,5 @@ if (typeof window !== 'undefined') {
   global.ZiliuConstants = ZiliuConstants;
 }
 
-console.log('✅ 字流配置常量已加载');
+console.log('✅ 述而作配置常量已加载');
 console.log('🔧 当前DEFAULT_API_BASE_URL:', ZiliuConstants.DEFAULT_API_BASE_URL);

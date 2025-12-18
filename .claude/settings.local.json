@@ -6,7 +6,10 @@
       "Bash(set DATABASE_URL=postgresql://postgres.dsxowflwwyagymsmlyyc:sb_secret_SUO7pW9j2stWNoIZeIxnRw_lt5khVRt@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres)",
       "Bash(npx drizzle-kit push:*)",
       "Bash(if exist .env type .env)",
-      "Bash(npm run db:init:*)"
+      "Bash(npm run db:init:*)",
+      "Bash(git mv:*)",
+      "Bash(ls:*)",
+      "Bash(npm run db:generate:pg:*)"
     ]
   }
 }

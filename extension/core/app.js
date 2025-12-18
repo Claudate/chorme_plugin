@@ -1,5 +1,5 @@
 /**
- * 字流助手核心应用
+ * 述而作助手核心应用
  * 负责整个应用的生命周期管理
  */
 class ZiliuApp {
@@ -19,11 +19,11 @@ class ZiliuApp {
    */
   async init() {
     if (this.isInitialized) {
-      console.log('⚠️ 字流助手已初始化');
+      console.log('⚠️ 述而作助手已初始化');
       return;
     }
 
-    console.log('🚀 字流助手开始初始化...');
+    console.log('🚀 述而作助手开始初始化...');
 
     try {
       // 1. 加载配置
@@ -48,7 +48,7 @@ class ZiliuApp {
       await this.loadPresets();
 
       this.isInitialized = true;
-      console.log('✅ 字流助手初始化完成');
+      console.log('✅ 述而作助手初始化完成');
       
       ZiliuEventBus.emit('app:ready', { 
         platform: this.currentPlatform?.id,
@@ -56,7 +56,7 @@ class ZiliuApp {
       });
 
     } catch (error) {
-      console.error('❌ 字流助手初始化失败:', error);
+      console.error('❌ 述而作助手初始化失败:', error);
       ZiliuEventBus.emit('app:error', { error });
       throw error;
     }
@@ -517,7 +517,7 @@ class ZiliuApp {
    * 应用销毁
    */
   async destroy() {
-    console.log('🗑️ 销毁字流助手...');
+    console.log('🗑️ 销毁述而作助手...');
     
     try {
       // 清理平台插件
@@ -530,7 +530,7 @@ class ZiliuApp {
       ZiliuEventBus.clear();
       
       this.isInitialized = false;
-      console.log('✅ 字流助手已销毁');
+      console.log('✅ 述而作助手已销毁');
       
     } catch (error) {
       console.error('销毁过程中出错:', error);

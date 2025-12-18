@@ -403,7 +403,7 @@ class SubscriptionStatus {
         <div class="ziliu-upgrade-icon">🔒</div>
         <div class="ziliu-upgrade-title">${platformName} 需要专业版</div>
         <div class="ziliu-upgrade-description">
-          升级专业版后即可在 ${platformName} 平台使用字流助手的全部功能
+          升级专业版后即可在 ${platformName} 平台使用述而作助手的全部功能
         </div>
         
         <div class="ziliu-upgrade-features">
@@ -473,4 +473,4 @@ class SubscriptionStatus {
 // 创建全局实例
 window.ZiliuSubscriptionStatus = new SubscriptionStatus();
 
-console.log('✅ 字流订阅状态组件已加载');
+console.log('✅ 述而作订阅状态组件已加载');

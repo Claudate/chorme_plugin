@@ -1132,7 +1132,7 @@ function WechatPreview({ title, content }: { title: string; content: string }) {
               </div>
               <div className="ml-3 flex-1">
                 <div className="text-base font-medium text-gray-900 break-words whitespace-normal">
-                  {title || '字流'}
+                  {title || '述而作'}
                 </div>
                 <div className="text-xs text-gray-500">刚刚</div>
               </div>
@@ -1179,7 +1179,7 @@ function ZhihuPreview({ title, content }: { title: string; content: string }) {
               知
             </div>
             <div>
-              <div className="font-medium text-gray-900">字流</div>
+              <div className="font-medium text-gray-900">述而作</div>
               <div className="text-sm text-gray-500">刚刚发布</div>
             </div>
           </div>
@@ -1233,7 +1233,7 @@ function JuejinPreview({ title, content }: { title: string; content: string }) {
               <div className="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
                 掘
               </div>
-              <span>字流</span>
+              <span>述而作</span>
             </div>
             <span>·</span>
             <span>刚刚</span>
@@ -1291,7 +1291,7 @@ function ZsxqPreview({ title, content }: { title: string; content: string }) {
               星
             </div>
             <div>
-              <div className="font-medium text-gray-900">字流</div>
+              <div className="font-medium text-gray-900">述而作</div>
               <div className="text-sm text-gray-500">刚刚发布</div>
             </div>
           </div>

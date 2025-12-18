@@ -136,7 +136,7 @@ export default function DashboardPage() {
                 </div>
                 <div>
                   <h1 className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
-                    字流
+                    述而作
                   </h1>
                 </div>
               </Link>

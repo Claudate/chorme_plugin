@@ -119,8 +119,13 @@ export async function registerUser(data: z.infer<typeof registerSchema>) {
     const { name, email, password } = registerSchema.parse(data);
 
     // 检查用户是否已存在
+    console.log('🔍 Checking if user exists:', { email });
     const existingUser = await db.query.users.findFirst({
       where: eq(users.email, email)
+    });
+    console.log('✅ User check complete:', {
+      exists: !!existingUser,
+      email
     });
 
     if (existingUser) {
@@ -128,14 +133,22 @@ export async function registerUser(data: z.infer<typeof registerSchema>) {
     }
 
     // 加密密码
+    console.log('🔐 Hashing password...');
     const passwordHash = await bcrypt.hash(password, 12);
+    console.log('✅ Password hashed');
 
     // 创建用户
+    console.log('👤 Creating new user:', { name, email });
     const [newUser] = await db.insert(users).values({
       name,
       email,
       passwordHash,
     }).returning();
+
+    console.log('✅ User created successfully:', {
+      id: newUser.id,
+      email: newUser.email
+    });
 
     return {
       id: newUser.id,
@@ -143,6 +156,13 @@ export async function registerUser(data: z.infer<typeof registerSchema>) {
       name: newUser.name,
     };
   } catch (error) {
+    // 增强错误日志
+    console.error('❌ User registration failed:', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+      email: data.email,
+    });
+
     if (error instanceof z.ZodError) {
       throw new Error(error.issues?.[0]?.message || '参数错误');
     }

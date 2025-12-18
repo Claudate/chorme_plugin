@@ -8,8 +8,8 @@ export function StructuredData({ type = 'WebApplication' }: StructuredDataProps)
   const structuredData = {
     "@context": "https://schema.org",
     "@type": type,
-    "name": "字流",
-    "description": "字流是一款AI驱动的多平台内容发布工具，支持一次创作，智能适配公众号、知乎、掘金、知识星球、视频号、抖音、B站、小红书等平台格式。",
+    "name": "述而作",
+    "description": "述而作是一款AI驱动的多平台内容发布工具，支持一次创作，智能适配公众号、知乎、掘金、知识星球、视频号、抖音、B站、小红书等平台格式。",
     "url": "https://ziliu.online",
     "logo": "https://ziliu.online/logo.png",
     "image": "https://ziliu.online/og-image.jpg",
@@ -32,7 +32,7 @@ export function StructuredData({ type = 'WebApplication' }: StructuredDataProps)
     ],
     "publisher": {
       "@type": "Organization",
-      "name": "字流团队",
+      "name": "述而作团队",
       "url": "https://ziliu.online"
     },
     "softwareVersion": "1.0.0",
@@ -49,7 +49,7 @@ export function StructuredData({ type = 'WebApplication' }: StructuredDataProps)
     },
     "author": {
       "@type": "Organization",
-      "name": "字流团队"
+      "name": "述而作团队"
     }
   };
 

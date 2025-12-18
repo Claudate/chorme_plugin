@@ -14,7 +14,7 @@ export function useExtensionDetector() {
 
   const checkExtension = useCallback(() => {
     setIsChecking(true);
-    console.log('🔍 检测字流插件...');
+    console.log('🔍 检测述而作插件...');
 
     // 发送检测消息到插件
     window.postMessage({

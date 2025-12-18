@@ -427,4 +427,4 @@ class UtilsService {
 // 创建全局实例
 window.ZiliuUtilsService = new UtilsService();
 
-console.log('✅ 字流工具服务已加载');
+console.log('✅ 述而作工具服务已加载');

@@ -101,7 +101,7 @@ export default function ExtensionPage() {
       <div className="text-center mb-8">
         <div className="flex items-center justify-center gap-3 mb-4">
           <Chrome className="text-blue-600" size={48} />
-          <h1 className="text-4xl font-bold">字流助手浏览器插件</h1>
+          <h1 className="text-4xl font-bold">述而作助手浏览器插件</h1>
         </div>
         <p className="text-gray-600 text-lg">
           一键智能填充，让多平台内容发布更高效！
@@ -294,7 +294,7 @@ export default function ExtensionPage() {
             </div>
             <div>
               <h3 className="font-medium mb-2">⚡ 一键填充</h3>
-              <p className="text-gray-600 text-sm">在字流网站编辑完成后，一键发布到目标平台，无需手动复制粘贴</p>
+              <p className="text-gray-600 text-sm">在述而作网站编辑完成后，一键发布到目标平台，无需手动复制粘贴</p>
             </div>
             <div>
               <h3 className="font-medium mb-2">🔄 格式适配</h3>

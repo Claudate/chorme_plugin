@@ -5,7 +5,7 @@
 (function() {
   'use strict';
 
-  console.log('🌐 字流网站端检测脚本加载');
+  console.log('🌐 述而作网站端检测脚本加载');
 
   // 监听来自网页的插件检测消息
   window.addEventListener('message', (event) => {

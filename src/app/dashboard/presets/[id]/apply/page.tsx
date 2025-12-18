@@ -107,7 +107,7 @@ export default function ApplyPresetPage() {
       if (typeof window !== 'undefined' && typeof (window as any).chrome !== 'undefined' && (window as any).chrome.runtime) {
         (window as any).chrome.runtime.sendMessage(message, (response: any) => {
           if ((window as any).chrome.runtime.lastError) {
-            alert('请确保已安装并启用字流Chrome插件');
+            alert('请确保已安装并启用述而作Chrome插件');
           } else {
             alert('内容已发送到微信编辑器！');
           }

@@ -1,4 +1,4 @@
-# 字流助手插件一键发布功能深度分析
+# 述而作助手插件一键发布功能深度分析
 
 ## 目录
 - [一、插件整体架构](#一插件整体架构)
@@ -159,7 +159,7 @@ window.ZiliuPluginConfig = {
 ```json
 {
   "manifest_version": 3,
-  "name": "字流助手",
+  "name": "述而作助手",
   "version": "1.3.3",
   "description": "一键发布到多个内容平台的浏览器扩展",
 
@@ -221,7 +221,7 @@ window.ZiliuPluginConfig = {
 ### 2.1 用户操作时序图
 
 ```
-用户                字流网站            插件-Website      插件-Main         Background        Content Script
+用户                述而作网站            插件-Website      插件-Main         Background        Content Script
  │                   Detector          │                 Script            │
  │  点击"发布到微信"    │                   │                   │                   │                   │
  ├──────────────────>│                   │                   │                   │                   │
@@ -246,7 +246,7 @@ window.ZiliuPluginConfig = {
 
 #### Step 1: 网站端发起请求
 
-位置：字流网站前端代码
+位置：述而作网站前端代码
 
 ```javascript
 // 用户点击"发布到微信公众号"按钮
@@ -938,7 +938,7 @@ findElementWithExclusion(selector, excludeSelector) {
 
 ```
 ┌─────────────────┐          ┌─────────────────┐          ┌─────────────────┐          ┌─────────────────┐
-│   字流网站      │          │  Content Script │          │  Background     │          │   API Server    │
+│   述而作网站      │          │  Content Script │          │  Background     │          │   API Server    │
 │  (ziliu.online) │          │   (插件注入)     │          │   Script        │          │  (ziliu.online) │
 └─────────────────┘          └─────────────────┘          └─────────────────┘          └─────────────────┘
         │                            │                            │                            │
@@ -2557,7 +2557,7 @@ async function uploadImage(imageUrl) {
 
 ### 8.4 核心价值
 
-**字流助手插件**实现了：
+**述而作助手插件**实现了：
 
 1. **真正的一键发布**
    - 用户在网站点击按钮
@@ -2588,4 +2588,4 @@ async function uploadImage(imageUrl) {
 
 **文档版本**：1.0
 **最后更新**：2024-12-14
-**维护者**：字流开发团队
+**维护者**：述而作开发团队

@@ -2,7 +2,7 @@ import type { Config } from 'drizzle-kit';
 
 // Supabase PostgreSQL 配置
 export default {
-  schema: './src/lib/db/schema-postgres.ts',
+  schema: './src/lib/db/schema.ts',
   out: './drizzle/migrations-postgres',
   dialect: 'postgresql',
   dbCredentials: {

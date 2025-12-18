@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * 字流插件构建脚本
+ * 述而作插件构建脚本
  * 根据环境变量替换配置文件中的URL
  */
 
@@ -58,7 +58,7 @@ function main() {
   const args = process.argv.slice(2);
   const environment = args[0] || 'development';
   
-  console.log(`🔧 构建字流插件 - 环境: ${environment}`);
+  console.log(`🔧 构建述而作插件 - 环境: ${environment}`);
 
   // 加载环境配置
   const envFile = environment === 'production' 

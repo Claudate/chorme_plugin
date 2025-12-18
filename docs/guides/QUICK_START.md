@@ -218,7 +218,7 @@ npm run dev
 ### 进阶配置
 4. **去除品牌信息**：
    - 阅读 [CUSTOMIZATION_GUIDE.md](./CUSTOMIZATION_GUIDE.md)
-   - 搜索并替换 "ziliu"、"字流"
+   - 搜索并替换 "ziliu"、"述而作"
    - 更新 Logo 和图标
    - 自定义颜色主题
 

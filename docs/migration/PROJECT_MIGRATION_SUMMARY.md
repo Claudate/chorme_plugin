@@ -46,7 +46,7 @@
 #### 修改的文件
 
 1. **`README.md`**
-   - 标题从"字流"改为"多平台内容发布工具"
+   - 标题从"述而作"改为"多平台内容发布工具"
    - 去除所有"ziliu.online"域名引用
    - 去除个人邮箱信息
    - 更新技术栈说明（Turso → Supabase）
@@ -190,7 +190,7 @@ npm run dev
 ```bash
 # 在项目中搜索
 grep -r "ziliu" src/
-grep -r "字流" src/
+grep -r "述而作" src/
 
 # 需要修改的文件：
 # - src/app/page.tsx (首页)

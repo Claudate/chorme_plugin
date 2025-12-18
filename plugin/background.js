@@ -1,5 +1,5 @@
-// 字流助手 - 后台脚本
-console.log('🚀 字流助手 Background Script 启动');
+// 述而作助手 - 后台脚本
+console.log('🚀 述而作助手 Background Script 启动');
 
 // 站点配置解析：优先使用 ApiService 的 baseURL，其次使用 fallback
 function resolveBaseUrl() {
@@ -30,7 +30,7 @@ const ZILIU_CONFIG = {
 
 // 安装时的初始化
 chrome.runtime.onInstalled.addListener(() => {
-  console.log('字流助手已安装');
+  console.log('述而作助手已安装');
 
   // 初始化存储
   chrome.storage.local.set({
@@ -44,9 +44,9 @@ chrome.runtime.onInstalled.addListener(() => {
 
 // 处理插件图标点击事件
 chrome.action.onClicked.addListener((tab) => {
-  console.log('字流助手图标被点击，跳转到官网');
+  console.log('述而作助手图标被点击，跳转到官网');
   
-  // 创建新标签页打开字流官网
+  // 创建新标签页打开述而作官网
   chrome.tabs.create({
     url: ZILIU_CONFIG.baseUrl,
     active: true
@@ -124,7 +124,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
       return await handleApiRequest(requestData);
     },
 
-    // 获取字流配置URL
+    // 获取述而作配置URL
     getZiliuUrls: async (data) => {
       return {
         success: true,

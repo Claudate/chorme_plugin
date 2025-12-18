@@ -1,11 +1,11 @@
 /**
- * 字流助手 - 新架构主入口文件
+ * 述而作助手 - 新架构主入口文件
  * 基于插件化的可扩展架构
  */
 (function() {
   'use strict';
 
-  console.log('🚀 字流助手启动 - 新架构版本');
+  console.log('🚀 述而作助手启动 - 新架构版本');
 
   // 尝试从当前站点发现运行时配置（优先本地/当前域），用于覆盖 API Base URL
   (async function bootstrapRuntimeConfig() {
@@ -48,10 +48,10 @@
   window.addEventListener('message', (event) => {
     // 调试：记录所有收到的消息
     if (event.data?.type?.startsWith('ZILIU_')) {
-      console.log('📡 收到字流消息:', event.data.type, 'from:', event.origin);
+      console.log('📡 收到述而作消息:', event.data.type, 'from:', event.origin);
     }
     
-    // 只处理来自同源或字流网站的消息
+    // 只处理来自同源或述而作网站的消息
     // 使用统一配置检查允许的域名
     const isAllowedOrigin = event.origin === window.location.origin || 
                           window.ZiliuConstants?.isAllowedOrigin?.(event.origin) ||
@@ -118,7 +118,7 @@
           }, '*');
         });
       } else {
-        throw new Error('字流应用尚未初始化完成');
+        throw new Error('述而作应用尚未初始化完成');
       }
     } catch (error) {
       console.error('❌ 处理发布请求失败:', error);
@@ -241,7 +241,7 @@
       }
 
       try {
-        console.log('🎯 开始初始化字流助手...');
+        console.log('🎯 开始初始化述而作助手...');
 
         // 1. 等待核心模块
         await ModuleLoader.waitForCoreModules();
@@ -261,7 +261,7 @@
         // 4. 设置消息监听器
         this.setupMessageHandlers();
 
-        console.log('🎉 字流助手初始化完成');
+        console.log('🎉 述而作助手初始化完成');
 
       } catch (error) {
         console.error('❌ 初始化失败:', error);
@@ -301,7 +301,7 @@
       if (chrome?.runtime?.onMessage) {
         chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           if (message.action === 'configUpdated') {
-            console.log('字流助手: 配置已更新', message.config);
+            console.log('述而作助手: 配置已更新', message.config);
             if (window.ZiliuConfigService && message.config.apiBaseUrl) {
               window.ZiliuConfigService.setApiBaseUrl(message.config.apiBaseUrl);
             }
@@ -402,5 +402,5 @@
     window.ZiliuPageReadyChecker = PageReadyChecker;
   }
 
-  console.log('✅ 字流助手主控制器已加载 - 新架构版本');
+  console.log('✅ 述而作助手主控制器已加载 - 新架构版本');
 })();

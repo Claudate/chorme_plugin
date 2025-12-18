@@ -25,7 +25,7 @@ export default function Home() {
               <span className="text-white font-bold text-lg">字</span>
             </div>
             <span className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent tracking-tight">
-              字流
+              述而作
             </span>
           </div>
           <div className="flex items-center space-x-3">
@@ -180,13 +180,13 @@ export default function Home() {
               </div>
               <div>
                 <span className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent tracking-tight">
-                  字流
+                  述而作
                 </span>
                 <p className="text-sm text-gray-600">让文字如流水般顺畅</p>
               </div>
             </div>
             <div className="text-gray-500 text-center md:text-right">
-              <p>&copy; 2025 字流. 专注于内容创作的美好体验.</p>
+              <p>&copy; 2025 述而作. 专注于内容创作的美好体验.</p>
             </div>
           </div>
         </div>

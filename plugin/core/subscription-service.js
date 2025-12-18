@@ -483,4 +483,4 @@ class SubscriptionService {
 // 创建全局实例
 window.ZiliuSubscriptionService = new SubscriptionService();
 
-console.log('✅ 字流订阅服务已加载');
+console.log('✅ 述而作订阅服务已加载');

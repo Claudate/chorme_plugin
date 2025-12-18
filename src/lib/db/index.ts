@@ -12,6 +12,14 @@ if (!connectionString) {
 
 console.log('🔗 Connecting to Supabase PostgreSQL database...');
 
+// 输出连接详情(便于调试)
+console.log('📍 Connection details:', {
+  host: connectionString?.split('@')[1]?.split(':')[0] || 'unknown',
+  port: connectionString?.split(':').slice(-1)[0]?.split('/')[0] || 'unknown',
+  database: connectionString?.split('/').slice(-1)[0]?.split('?')[0] || 'unknown',
+});
+console.log('🔧 Using connection pooling:', connectionString?.includes(':6543') || false);
+
 // 创建 PostgreSQL 客户端
 // 使用 connection pooling 以提高性能
 const client = postgres(connectionString, {

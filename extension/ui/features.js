@@ -1,5 +1,5 @@
 /**
- * 字流助手 - 功能管理器
+ * 述而作助手 - 功能管理器
  * 处理面板的各种功能逻辑
  */
 class ZiliuFeatures {
@@ -153,7 +153,7 @@ class ZiliuFeatures {
         <div style="font-size: 48px; margin-bottom: 16px;">🔐</div>
         <h3 style="margin: 0 0 12px 0; color: #2d3436;">未登录</h3>
         <p style="color: #636e72; margin: 0 0 20px 0; font-size: 13px;">
-          请先登录字流平台获取文章列表
+          请先登录述而作平台获取文章列表
         </p>
         <button id="ziliu-login-btn" style="
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -196,7 +196,7 @@ class ZiliuFeatures {
           <div style="font-size: 48px; margin-bottom: 16px;">📝</div>
           <h3 style="margin: 0 0 12px 0; color: #2d3436;">暂无文章</h3>
           <p style="color: #636e72; margin: 0; font-size: 13px;">
-            去字流平台创建您的第一篇文章吧
+            去述而作平台创建您的第一篇文章吧
           </p>
         </div>
       `;
@@ -530,11 +530,11 @@ class ZiliuFeatures {
   }
 
   /**
-   * 跳转到字流编辑页面
+   * 跳转到述而作编辑页面
    */
   async editArticle(articleId) {
     try {
-      console.log('跳转到字流编辑页面:', articleId);
+      console.log('跳转到述而作编辑页面:', articleId);
       
       // 通过background获取配置URL
       const response = await this.getZiliuUrls(articleId);
@@ -543,7 +543,7 @@ class ZiliuFeatures {
       // 在新标签页中打开编辑页面
       window.open(editorUrl, '_blank');
       
-      this.showToast('已跳转到字流编辑页面', 'success');
+      this.showToast('已跳转到述而作编辑页面', 'success');
       
     } catch (error) {
       console.error('跳转编辑页面失败:', error);
@@ -766,7 +766,7 @@ class ZiliuFeatures {
   }
 
   /**
-   * 获取字流配置URL
+   * 获取述而作配置URL
    */
   async getZiliuUrls(articleId = null) {
     return new Promise((resolve, reject) => {
