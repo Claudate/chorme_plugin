@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 
 const errorMessages: Record<string, string> = {
   Configuration: '服务器配置错误。请联系管理员。',
@@ -10,7 +10,7 @@ const errorMessages: Record<string, string> = {
   Default: '发生了一个错误。请稍后再试。',
 };
 
-export default function AuthErrorPage() {
+function ErrorContent() {
   const searchParams = useSearchParams();
   const [error, setError] = useState<string>('');
   const [errorDetails, setErrorDetails] = useState<string>('');
@@ -145,5 +145,25 @@ export default function AuthErrorPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+// Loading fallback component
+function ErrorPageFallback() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+        <p className="mt-4 text-gray-600 dark:text-gray-400">加载中...</p>
+      </div>
+    </div>
+  );
+}
+
+export default function AuthErrorPage() {
+  return (
+    <Suspense fallback={<ErrorPageFallback />}>
+      <ErrorContent />
+    </Suspense>
   );
 }
