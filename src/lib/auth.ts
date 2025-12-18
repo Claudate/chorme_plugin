@@ -29,11 +29,13 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         try {
           if (!credentials?.email || !credentials?.password) {
+            console.log('❌ Auth: Missing credentials');
             return null;
           }
 
           // 验证输入
           const { email, password } = loginSchema.parse(credentials);
+          console.log('🔍 Auth: Validating user:', email);
 
           // 查找用户
           const user = await db.query.users.findFirst({
@@ -41,15 +43,18 @@ export const authOptions: NextAuthOptions = {
           });
 
           if (!user || !user.passwordHash) {
+            console.log('❌ Auth: User not found or no password:', email);
             return null;
           }
 
           // 验证密码
           const isValidPassword = await bcrypt.compare(password, user.passwordHash);
           if (!isValidPassword) {
+            console.log('❌ Auth: Invalid password for:', email);
             return null;
           }
 
+          console.log('✅ Auth: User authenticated:', email);
           // 返回用户信息（不包含密码）
           return {
             id: user.id,
@@ -58,7 +63,7 @@ export const authOptions: NextAuthOptions = {
             image: user.avatar,
           };
         } catch (error) {
-          console.error('Auth error:', error);
+          console.error('❌ Auth error:', error);
           return null;
         }
       }
@@ -69,38 +74,53 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn: '/auth/signin',
+    error: '/auth/error', // 添加错误页面
   },
   callbacks: {
     async jwt({ token, user, trigger }) {
-      if (user) {
-        token.id = user.id;
-      }
-      
-      // 当session.update()被调用时，重新从数据库获取最新用户信息
-      if (trigger === 'update' && token.id) {
-        const updatedUser = await db.query.users.findFirst({
-          where: eq(users.id, token.id as string)
-        });
-        
-        if (updatedUser) {
-          token.name = updatedUser.name;
-          token.email = updatedUser.email;
-          token.image = updatedUser.avatar;
+      try {
+        if (user) {
+          token.id = user.id;
         }
+
+        // 当session.update()被调用时，重新从数据库获取最新用户信息
+        if (trigger === 'update' && token.id) {
+          const updatedUser = await db.query.users.findFirst({
+            where: eq(users.id, token.id as string)
+          });
+
+          if (updatedUser) {
+            token.name = updatedUser.name;
+            token.email = updatedUser.email;
+            token.image = updatedUser.avatar;
+          }
+        }
+
+        return token;
+      } catch (error) {
+        console.error('❌ JWT callback error:', error);
+        return token;
       }
-      
-      return token;
     },
     async session({ session, token }) {
-      if (token && session.user) {
-        session.user.id = token.id as string;
-        session.user.name = token.name as string;
-        session.user.email = token.email as string;
-        session.user.image = token.image as string;
+      try {
+        if (token && session.user) {
+          session.user.id = token.id as string;
+          session.user.name = token.name as string;
+          session.user.email = token.email as string;
+          session.user.image = token.image as string;
+        }
+        return session;
+      } catch (error) {
+        console.error('❌ Session callback error:', error);
+        return session;
       }
-      return session;
     },
   },
+  // 添加调试日志
+  debug: process.env.NODE_ENV === 'development',
+  // 确保使用环境变量
+  secret: process.env.NEXTAUTH_SECRET,
 };
 
 const handler = NextAuth(authOptions);

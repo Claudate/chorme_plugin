@@ -27,6 +27,12 @@ export async function GET() {
     POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD ? '✅ 已设置' : '❌ 未设置',
     POSTGRES_DATABASE: process.env.POSTGRES_DATABASE ? '✅ 已设置' : '❌ 未设置',
 
+    // NextAuth 配置
+    NEXTAUTH_URL: process.env.NEXTAUTH_URL ? '✅ 已设置' : '❌ 未设置',
+    NEXTAUTH_URL_VALUE: process.env.NEXTAUTH_URL || 'N/A',
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET ? '✅ 已设置' : '❌ 未设置',
+    NEXTAUTH_SECRET_LENGTH: process.env.NEXTAUTH_SECRET?.length || 0,
+
     // Supabase 公开变量
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL ? '✅ 已设置' : '❌ 未设置',
     NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? '✅ 已设置' : '❌ 未设置',
@@ -55,15 +61,35 @@ export async function GET() {
   };
 
   // 提供建议
+  const recommendations = [];
+
   if (process.env.POSTGRES_URL) {
-    result.recommendation = '✅ POSTGRES_URL 已设置,这是 Vercel Supabase Integration 的默认变量名,无需额外配置。';
+    recommendations.push('✅ POSTGRES_URL 已设置,这是 Vercel Supabase Integration 的默认变量名。');
   } else if (process.env.DATABASE_URL) {
-    result.recommendation = '✅ DATABASE_URL 已设置,可以正常使用。';
+    recommendations.push('✅ DATABASE_URL 已设置,可以正常使用。');
   } else if (process.env.SUPABASE_DB_URL) {
-    result.recommendation = '✅ SUPABASE_DB_URL 已设置,可以正常使用。';
+    recommendations.push('✅ SUPABASE_DB_URL 已设置,可以正常使用。');
   } else {
-    result.recommendation = '❌ 未找到数据库连接字符串。请在 Vercel Dashboard → Settings → Environment Variables 中设置 POSTGRES_URL 或 DATABASE_URL。';
+    recommendations.push('❌ 未找到数据库连接字符串。请在 Vercel Dashboard → Settings → Environment Variables 中设置 POSTGRES_URL 或 DATABASE_URL。');
   }
+
+  if (process.env.NEXTAUTH_SECRET) {
+    if ((process.env.NEXTAUTH_SECRET?.length || 0) < 32) {
+      recommendations.push('⚠️  NEXTAUTH_SECRET 已设置,但长度少于32字符,建议使用更长的密钥。');
+    } else {
+      recommendations.push('✅ NEXTAUTH_SECRET 已设置且长度合适。');
+    }
+  } else {
+    recommendations.push('❌ NEXTAUTH_SECRET 未设置!这会导致 NextAuth 认证失败。请设置至少32字符的随机密钥。');
+  }
+
+  if (process.env.NEXTAUTH_URL) {
+    recommendations.push('✅ NEXTAUTH_URL 已设置: ' + process.env.NEXTAUTH_URL);
+  } else {
+    recommendations.push('⚠️  NEXTAUTH_URL 未设置。在生产环境中应该设置此变量。');
+  }
+
+  result.recommendation = recommendations.join('\n');
 
   return NextResponse.json(result, {
     status: 200,
