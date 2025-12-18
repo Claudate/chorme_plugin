@@ -9,7 +9,11 @@
       "Bash(npm run db:init:*)",
       "Bash(git mv:*)",
       "Bash(ls:*)",
-      "Bash(npm run db:generate:pg:*)"
+      "Bash(npm run db:generate:pg:*)",
+      "Bash(cat:*)",
+      "Bash(git push:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nfix: 添加表名修复脚本，将旧表名统一添加 zi_ 前缀\n\n问题：\n- Vercel 数据库中的表名是 users, articles 等（无前缀）\n- 代码中的 schema.ts 使用的是 zi_users, zi_articles（有前缀）\n- 导致注册等 API 查询时找不到表，出现 SQL 错误\n\n解决方案：\n1. 创建 fix-table-names.ts 脚本\n   - 自动检测并重命名所有旧表名添加 zi_ 前缀\n   - 包括 users, articles, publish_records 等 7 个表\n   - 同时重命名相关索引和约束\n\n2. 更新构建流程\n   - 在构建前先运行 db:fix-names 修复表名\n   - 然后运行 db:migrate:vercel 应用迁移\n   - 最后构建 Next.js 应用\n\n这样可以确保 Vercel 部署时自动修复表名不匹配的问题。\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
     ]
   }
 }

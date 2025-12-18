@@ -6,7 +6,6 @@
     "dev": "next dev --turbopack",
     "build": "npm run db:migrate:vercel && next build",
     "start": "next start",
-    "db:fix-names:local": "tsx scripts/fix-table-names-local.ts",
     "lint": "next lint",
     "test:wechat:fill": "node ./scripts/test-wechat-fill.mjs",
     "test:wechat:cdp": "node ./scripts/cdp-wechat-fill.mjs",
