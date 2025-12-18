@@ -1,26 +1,33 @@
-import { drizzle } from 'drizzle-orm/libsql';
-import { createClient } from '@libsql/client';
+import { drizzle } from 'drizzle-orm/postgres-js';
+import postgres from 'postgres';
 import * as schema from './schema';
 
-// 判断是否使用 Turso 数据库
-// 只有当 TURSO_DATABASE_URL 存在且不是示例值时才使用
-const useTurso = process.env.TURSO_DATABASE_URL &&
-  !process.env.TURSO_DATABASE_URL.includes('your-database-name');
+// 获取数据库连接字符串
+// 支持 DATABASE_URL 或 SUPABASE_DB_URL
+const connectionString = process.env.DATABASE_URL || process.env.SUPABASE_DB_URL;
 
-const dbUrl = useTurso
-  ? process.env.TURSO_DATABASE_URL!
-  : (process.env.DATABASE_URL || 'file:./dev.db');
+if (!connectionString) {
+  throw new Error('DATABASE_URL or SUPABASE_DB_URL environment variable must be set');
+}
 
-console.log('Using database:', dbUrl);
+console.log('🔗 Connecting to Supabase PostgreSQL database...');
 
-// 创建数据库客户端
-const client = createClient({
-  url: dbUrl,
-  authToken: useTurso ? process.env.TURSO_AUTH_TOKEN : undefined,
+// 创建 PostgreSQL 客户端
+// 使用 connection pooling 以提高性能
+const client = postgres(connectionString, {
+  max: 10, // 最大连接数
+  idle_timeout: 20, // 空闲超时（秒）
+  connect_timeout: 10, // 连接超时（秒）
+  // Supabase 使用 SSL 连接
+  ssl: 'require',
+  // 如果使用 connection pooling (端口 6543)，需要以下配置
+  prepare: false,
 });
 
-// 创建Drizzle实例
+// 创建 Drizzle 实例
 export const db = drizzle(client, { schema });
 
-// 导出schema以便在其他地方使用
+// 导出 schema 以便在其他地方使用
 export * from './schema';
+
+console.log('✅ Supabase database connection established');

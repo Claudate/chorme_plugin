@@ -1,71 +1,66 @@
-import { pgTable, text, integer, boolean, timestamp, varchar } from 'drizzle-orm/pg-core';
+import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
 import { createId } from '@paralleldrive/cuid2';
 
 // 用户表
-export const users = pgTable('zi_users', {
+export const users = sqliteTable('users', {
   id: text('id').primaryKey().$defaultFn(() => createId()),
-  email: varchar('email', { length: 255 }).notNull().unique(),
-  name: varchar('name', { length: 255 }),
+  email: text('email').notNull().unique(),
+  name: text('name'),
   passwordHash: text('password_hash'),
   avatar: text('avatar'),
-  plan: varchar('plan', { length: 20, enum: ['free', 'pro'] }).notNull().default('free'),
-  planExpiredAt: timestamp('plan_expired_at', { withTimezone: true }),
-
+  plan: text('plan', { enum: ['free', 'pro'] }).notNull().default('free'),
+  planExpiredAt: integer('plan_expired_at', { mode: 'timestamp' }),
   // 自定义R2存储配置
-  useCustomR2: boolean('use_custom_r2').default(false),
+  useCustomR2: integer('use_custom_r2', { mode: 'boolean' }).default(false),
   customR2AccountId: text('custom_r2_account_id'),
   customR2AccessKeyId: text('custom_r2_access_key_id'),
   customR2SecretAccessKey: text('custom_r2_secret_access_key'),
   customR2BucketName: text('custom_r2_bucket_name'),
   customR2PublicUrl: text('custom_r2_public_url'),
-
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
+  updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
 });
 
 // 文章表
-export const articles = pgTable('zi_articles', {
+export const articles = sqliteTable('articles', {
   id: text('id').primaryKey().$defaultFn(() => createId()),
   userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
   title: text('title').notNull(),
   content: text('content').notNull(),
-  style: varchar('style', { length: 20, enum: ['default', 'tech', 'minimal', 'elegant'] }).notNull().default('default'),
-  status: varchar('status', { length: 20, enum: ['draft', 'published'] }).notNull().default('draft'),
+  style: text('style', { enum: ['default', 'tech', 'minimal', 'elegant'] }).notNull().default('default'),
+  status: text('status', { enum: ['draft', 'published'] }).notNull().default('draft'),
   wordCount: integer('word_count').default(0),
   readingTime: integer('reading_time').default(0), // 预计阅读时间（分钟）
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
+  updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
 });
 
 // 发布记录表
-export const publishRecords = pgTable('zi_publish_records', {
+export const publishRecords = sqliteTable('publish_records', {
   id: text('id').primaryKey().$defaultFn(() => createId()),
   articleId: text('article_id').notNull().references(() => articles.id, { onDelete: 'cascade' }),
   userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
-  platform: varchar('platform', {
-    length: 50,
-    enum: ['wechat', 'zhihu', 'juejin', 'zsxq', 'video_wechat', 'douyin', 'bilibili', 'xiaohongshu']
-  }).notNull(),
-  status: varchar('status', { length: 20, enum: ['pending', 'success', 'failed'] }).notNull().default('pending'),
+  platform: text('platform', { enum: ['wechat', 'zhihu', 'juejin', 'zsxq', 'video_wechat', 'douyin', 'bilibili', 'xiaohongshu'] }).notNull(),
+  status: text('status', { enum: ['pending', 'success', 'failed'] }).notNull().default('pending'),
   platformArticleId: text('platform_article_id'), // 平台返回的文章ID
   platformUrl: text('platform_url'), // 发布后的URL
-  publishedAt: timestamp('published_at', { withTimezone: true }),
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  publishedAt: integer('published_at', { mode: 'timestamp' }),
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
 });
 
 // 发布预设表
-export const publishPresets = pgTable('zi_publish_presets', {
+export const publishPresets = sqliteTable('publish_presets', {
   id: text('id').primaryKey().$defaultFn(() => createId()),
   userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
-  name: varchar('name', { length: 255 }).notNull(), // 预设名称
-  platform: varchar('platform', { length: 50 }).notNull().default('wechat'), // 目标平台
-  isDefault: boolean('is_default').default(false), // 是否为默认预设
+  name: text('name').notNull(), // 预设名称
+  platform: text('platform').notNull().default('wechat'), // 目标平台: wechat, zhihu, juejin, zsxq
+  isDefault: integer('is_default', { mode: 'boolean' }).default(false), // 是否为默认预设
 
   // 作者信息
-  authorName: varchar('author_name', { length: 255 }), // 作者名称
+  authorName: text('author_name'), // 作者名称
 
   // 核心功能设置
-  autoGenerateDigest: boolean('auto_generate_digest').default(true), // 是否启用AI摘要
+  autoGenerateDigest: integer('auto_generate_digest', { mode: 'boolean' }).default(true), // 是否启用AI摘要
 
   // 通用内容字段（向后兼容）
   headerContent: text('header_content'), // 开头定制内容（Markdown）
@@ -74,41 +69,41 @@ export const publishPresets = pgTable('zi_publish_presets', {
   // 平台特定配置（JSON格式）
   platformConfig: text('platform_config'), // 存储平台特定的配置，如知乎的专栏、标签等
 
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
+  updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
 });
 
 // 兑换码表
-export const redeemCodes = pgTable('zi_redeem_codes', {
+export const redeemCodes = sqliteTable('redeem_codes', {
   id: text('id').primaryKey().$defaultFn(() => createId()),
-  code: varchar('code', { length: 50 }).notNull().unique(), // 兑换码
-  type: varchar('type', { length: 20, enum: ['monthly', 'yearly'] }).notNull(), // 兑换码类型：月卡、年卡
+  code: text('code').notNull().unique(), // 兑换码
+  type: text('type', { enum: ['monthly', 'yearly'] }).notNull(), // 兑换码类型：月卡、年卡
   duration: integer('duration').notNull(), // 时长（月数）
-  isUsed: boolean('is_used').notNull().default(false), // 是否已使用
+  isUsed: integer('is_used', { mode: 'boolean' }).notNull().default(false), // 是否已使用
   usedBy: text('used_by').references(() => users.id), // 使用者用户ID
-  usedAt: timestamp('used_at', { withTimezone: true }), // 使用时间
-  createdBy: varchar('created_by', { length: 255 }), // 创建者（管理员标识）
+  usedAt: integer('used_at', { mode: 'timestamp' }), // 使用时间
+  createdBy: text('created_by'), // 创建者（管理员标识）
   note: text('note'), // 备注信息
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
 });
 
 // 图片使用统计表
-export const imageUsageStats = pgTable('zi_image_usage_stats', {
+export const imageUsageStats = sqliteTable('image_usage_stats', {
   id: text('id').primaryKey().$defaultFn(() => createId()),
   userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
-  month: varchar('month', { length: 7 }).notNull(), // 格式：YYYY-MM
+  month: text('month').notNull(), // 格式：YYYY-MM
   usedCount: integer('used_count').notNull().default(0), // 当月已使用的图片数量
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
+  updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
 });
 
 // 视频内容元数据表
-export const videoContents = pgTable('zi_video_contents', {
+export const videoContents = sqliteTable('video_contents', {
   id: text('id').primaryKey().$defaultFn(() => createId()),
   articleId: text('article_id').notNull().references(() => articles.id, { onDelete: 'cascade' }),
   userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
-  platform: varchar('platform', { length: 50 }).notNull(), // 目标视频平台：video_wechat, douyin, bilibili, xiaohongshu
-
+  platform: text('platform', { enum: ['video_wechat', 'douyin', 'bilibili', 'xiaohongshu'] }).notNull(),
+  
   // 视频元数据
   videoTitle: text('video_title'), // 视频标题
   videoDescription: text('video_description'), // 视频描述
@@ -117,14 +112,9 @@ export const videoContents = pgTable('zi_video_contents', {
   coverSuggestion: text('cover_suggestion'), // 封面建议
   platformTips: text('platform_tips'), // JSON数组，存储平台特定建议
   estimatedDuration: integer('estimated_duration'), // 预计时长（秒）
-
-  // 兼容字段（向后兼容）
-  shortTitle: varchar('short_title', { length: 100 }), // 短标题（6-16字，适合视频号）
-  keyPoints: text('key_points'), // 关键要点（JSON数组格式，用于视频描述）
-  hashtags: text('hashtags'), // 话题标签（用于小红书等）
-
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
+  updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
 });
 
 // 类型导出
