@@ -1,4 +1,4 @@
-# 字流 - AI驱动的多平台内容发布工具
+# 多平台内容发布工具
 
 <div align="center">
   <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License">
@@ -8,14 +8,14 @@
 </div>
 
 <div align="center">
-  <h3>让文字如流水般顺畅流向每个平台</h3>
-  <p>一次创作，智能适配公众号、知乎、掘金、知识星球、视频号、抖音、B站、小红书等多个内容平台</p>
+  <h3>一次创作，智能发布到多个平台</h3>
+  <p>支持公众号、知乎、掘金、知识星球、视频号、抖音、B站、小红书等多个内容平台</p>
 </div>
 
 ## 📱 产品截图
 
 <div align="center">
-  <img src="./public/screenshot.png" alt="字流产品界面截图" style="max-width: 100%; border-radius: 8px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);">
+  <img src="./public/screenshot.png" alt="产品界面截图" style="max-width: 100%; border-radius: 8px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);">
 </div>
 
 ## ✨ 产品特性
@@ -48,16 +48,16 @@
 
 ### 后端技术栈
 - **运行时**: Next.js API Routes
-- **数据库**: SQLite (开发) / Turso (生产)
+- **数据库**: Supabase (PostgreSQL)
 - **ORM**: Drizzle ORM
 - **认证**: NextAuth.js
-- **文件存储**: AWS S3 兼容服务
+- **文件存储**: Cloudflare R2 / Supabase Storage
 
 ### 部署架构
-- **托管平台**: Vercel
-- **数据库**: Turso (LibSQL)
+- **托管平台**: Vercel / 自托管
+- **数据库**: Supabase PostgreSQL
 - **CDN**: Vercel Edge Network
-- **图片存储**: Cloudflare R2
+- **图片存储**: Cloudflare R2 / Supabase Storage
 
 ## 🚀 快速开始
 
@@ -67,8 +67,8 @@
 
 ### 1. 克隆项目
 ```bash
-git clone https://github.com/your-username/ziliu.git
-cd ziliu
+git clone <your-repo-url>
+cd content-publisher
 ```
 
 ### 2. 安装依赖
@@ -77,24 +77,37 @@ npm install
 ```
 
 ### 3. 环境配置
-创建 `.env.local` 文件并配置必要的环境变量：
+复制环境变量模板并配置：
 
 ```bash
-# 数据库配置
-DATABASE_URL="file:./dev.db"
-TURSO_DATABASE_URL="your-turso-url"
-TURSO_AUTH_TOKEN="your-turso-token"
+cp .env.example .env.local
+```
+
+编辑 `.env.local` 文件，配置必要的环境变量：
+
+```bash
+# 数据库配置（Supabase）
+DATABASE_URL="postgresql://postgres:[YOUR-PASSWORD]@db.[PROJECT-REF].supabase.co:6543/postgres?pgbouncer=true"
+SUPABASE_URL="https://[PROJECT-REF].supabase.co"
+SUPABASE_ANON_KEY="your-anon-key"
+SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
 
 # 认证配置
-NEXTAUTH_SECRET="your-super-secret-key"
+NEXTAUTH_SECRET="your-super-secret-key"  # openssl rand -base64 32
 NEXTAUTH_URL="http://localhost:3000"
 
-# 云存储配置 (可选)
+# 云存储配置（选择一个）
+# 选项1: Cloudflare R2
 R2_ACCOUNT_ID="your-r2-account-id"
 R2_ACCESS_KEY_ID="your-r2-access-key"
 R2_SECRET_ACCESS_KEY="your-r2-secret-key"
 R2_BUCKET_NAME="your-bucket-name"
+R2_PUBLIC_URL="https://your-domain.com"
+
+# 选项2: 使用 Supabase Storage（使用上面的 SUPABASE_URL 和密钥）
 ```
+
+详细配置说明请查看 [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)
 
 ### 4. 初始化数据库
 ```bash
@@ -111,7 +124,7 @@ npm run dev
 ## 📁 项目结构
 
 ```
-ziliu/
+content-publisher/
 ├── src/
 │   ├── app/                    # Next.js App Router
 │   │   ├── (pages)/           # 应用页面
@@ -127,13 +140,23 @@ ziliu/
 │   │   ├── converter.ts      # 格式转换
 │   │   └── utils.ts          # 工具函数
 │   └── types/                # TypeScript 类型定义
-├── extension/                # Chrome 插件
-│   ├── manifest.json        # 插件配置
-│   ├── core/                # 核心功能
-│   ├── plugins/             # 平台适配插件
-│   └── ui/                  # 插件界面
+├── plugin/                   # Chrome 扩展
+│   ├── manifest.json        # 扩展配置
+│   ├── background.js        # Service Worker
+│   ├── core/                # 核心服务
+│   ├── plugins/             # 平台插件
+│   │   ├── config.js       # 平台配置（配置驱动）
+│   │   └── platforms/      # 各平台实现
+│   └── ui/                  # UI 组件
 ├── drizzle/                 # 数据库迁移
-└── public/                  # 静态资源
+├── public/                  # 静态资源
+└── 文档/
+    ├── TECH_STACK.md            # 技术架构文档
+    ├── PLUGIN_ARCHITECTURE.md   # 插件架构文档
+    ├── PLUGIN_EXTENSION_GUIDE.md # 插件扩展指南
+    ├── MIGRATION_TO_SUPABASE.md # 数据库迁移指南
+    ├── DEPLOYMENT_GUIDE.md      # 部署指南
+    └── CUSTOMIZATION_GUIDE.md   # 定制指南
 ```
 
 ## 🔧 开发指南
@@ -156,13 +179,16 @@ npm run lint             # ESLint 检查
 npm run type-check       # TypeScript 类型检查
 ```
 
-### Chrome 插件开发
-1. 插件源码位于 `/extension` 目录
-2. 在 Chrome 中加载未打包的插件：
+### Chrome 扩展开发
+1. 扩展源码位于 `/plugin` 目录
+2. 构建扩展：`npm run ext:build`
+3. 在 Chrome 中加载：
    - 打开 `chrome://extensions/`
    - 开启开发者模式
    - 点击"加载已解压的扩展程序"
-   - 选择 `extension` 目录
+   - 选择 `plugin` 目录
+
+详细开发指南请查看 [PLUGIN_ARCHITECTURE.md](./PLUGIN_ARCHITECTURE.md)
 
 ## 🌟 主要功能
 
@@ -235,13 +261,25 @@ npm run type-check       # TypeScript 类型检查
 - [Radix UI](https://www.radix-ui.com/) - 无样式 UI 组件
 - [NextAuth.js](https://next-auth.js.org/) - 认证解决方案
 
-## 📞 联系我们
+## 📚 文档
 
-- 🌐 网站: [ziliu.online](https://ziliu.online)
-- 📧 邮箱: 384709054@qq.com
+- [技术架构文档](./TECH_STACK.md) - 详细的技术栈和架构说明
+- [插件架构文档](./PLUGIN_ARCHITECTURE.md) - Chrome 扩展的实现原理
+- [插件扩展指南](./PLUGIN_EXTENSION_GUIDE.md) - 如何添加新平台支持
+- [数据库迁移指南](./MIGRATION_TO_SUPABASE.md) - 从 Turso 迁移到 Supabase
+- [部署指南](./DEPLOYMENT_GUIDE.md) - 部署到 Vercel 或自己的服务器
+- [定制指南](./CUSTOMIZATION_GUIDE.md) - 如何将项目定制为自己的品牌
+
+## 📞 联系与支持
+
+- 📖 文档：查看上方文档链接
+- 🐛 Bug 报告：提交 GitHub Issue
+- 💡 功能建议：提交 GitHub Issue
+- 💬 讨论：GitHub Discussions
 
 ---
 
 <div align="center">
-  <p>如果这个项目对你有帮助，请给我们一个 ⭐️</p>
+  <p>如果这个项目对你有帮助，请给一个 ⭐️</p>
+  <p>Built with ❤️ using Next.js and TypeScript</p>
 </div>
