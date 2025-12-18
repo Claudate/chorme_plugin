@@ -1,4 +1,4 @@
-CREATE TABLE "zi_articles" (
+CREATE TABLE "articles" (
 	"id" text PRIMARY KEY NOT NULL,
 	"user_id" text NOT NULL,
 	"title" text NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE "zi_articles" (
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "zi_image_usage_stats" (
+CREATE TABLE "image_usage_stats" (
 	"id" text PRIMARY KEY NOT NULL,
 	"user_id" text NOT NULL,
 	"month" varchar(7) NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE "zi_image_usage_stats" (
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "zi_publish_presets" (
+CREATE TABLE "publish_presets" (
 	"id" text PRIMARY KEY NOT NULL,
 	"user_id" text NOT NULL,
 	"name" varchar(255) NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE "zi_publish_presets" (
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "zi_publish_records" (
+CREATE TABLE "publish_records" (
 	"id" text PRIMARY KEY NOT NULL,
 	"article_id" text NOT NULL,
 	"user_id" text NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE "zi_publish_records" (
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "zi_redeem_codes" (
+CREATE TABLE "redeem_codes" (
 	"id" text PRIMARY KEY NOT NULL,
 	"code" varchar(50) NOT NULL,
 	"type" varchar(20) NOT NULL,
@@ -58,10 +58,10 @@ CREATE TABLE "zi_redeem_codes" (
 	"created_by" varchar(255),
 	"note" text,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
-	CONSTRAINT "zi_redeem_codes_code_unique" UNIQUE("code")
+	CONSTRAINT "redeem_codes_code_unique" UNIQUE("code")
 );
 --> statement-breakpoint
-CREATE TABLE "zi_users" (
+CREATE TABLE "users" (
 	"id" text PRIMARY KEY NOT NULL,
 	"email" varchar(255) NOT NULL,
 	"name" varchar(255),
@@ -77,28 +77,33 @@ CREATE TABLE "zi_users" (
 	"custom_r2_public_url" text,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL,
-	CONSTRAINT "zi_users_email_unique" UNIQUE("email")
+	CONSTRAINT "users_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
-CREATE TABLE "zi_video_contents" (
+CREATE TABLE "video_contents" (
 	"id" text PRIMARY KEY NOT NULL,
 	"article_id" text NOT NULL,
 	"user_id" text NOT NULL,
 	"platform" varchar(50) NOT NULL,
+	"video_title" text,
+	"video_description" text,
+	"speech_script" text,
+	"tags" text,
+	"cover_suggestion" text,
+	"platform_tips" text,
+	"estimated_duration" integer,
 	"short_title" varchar(100),
 	"key_points" text,
-	"tags" text,
 	"hashtags" text,
-	"speech_script" text,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-ALTER TABLE "zi_articles" ADD CONSTRAINT "zi_articles_user_id_zi_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."zi_users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "zi_image_usage_stats" ADD CONSTRAINT "zi_image_usage_stats_user_id_zi_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."zi_users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "zi_publish_presets" ADD CONSTRAINT "zi_publish_presets_user_id_zi_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."zi_users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "zi_publish_records" ADD CONSTRAINT "zi_publish_records_article_id_zi_articles_id_fk" FOREIGN KEY ("article_id") REFERENCES "public"."zi_articles"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "zi_publish_records" ADD CONSTRAINT "zi_publish_records_user_id_zi_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."zi_users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "zi_redeem_codes" ADD CONSTRAINT "zi_redeem_codes_used_by_zi_users_id_fk" FOREIGN KEY ("used_by") REFERENCES "public"."zi_users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "zi_video_contents" ADD CONSTRAINT "zi_video_contents_article_id_zi_articles_id_fk" FOREIGN KEY ("article_id") REFERENCES "public"."zi_articles"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "zi_video_contents" ADD CONSTRAINT "zi_video_contents_user_id_zi_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."zi_users"("id") ON DELETE cascade ON UPDATE no action;
+ALTER TABLE "articles" ADD CONSTRAINT "articles_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "image_usage_stats" ADD CONSTRAINT "image_usage_stats_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "publish_presets" ADD CONSTRAINT "publish_presets_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "publish_records" ADD CONSTRAINT "publish_records_article_id_articles_id_fk" FOREIGN KEY ("article_id") REFERENCES "public"."articles"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "publish_records" ADD CONSTRAINT "publish_records_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "redeem_codes" ADD CONSTRAINT "redeem_codes_used_by_users_id_fk" FOREIGN KEY ("used_by") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "video_contents" ADD CONSTRAINT "video_contents_article_id_articles_id_fk" FOREIGN KEY ("article_id") REFERENCES "public"."articles"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "video_contents" ADD CONSTRAINT "video_contents_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;

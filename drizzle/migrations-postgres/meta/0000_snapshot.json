@@ -1,11 +1,11 @@
 {
-  "id": "5860e6a2-d3c8-449f-9159-df42f84db3dc",
+  "id": "94a83738-ff0e-4406-8020-d542337af6c0",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.zi_articles": {
-      "name": "zi_articles",
+    "public.articles": {
+      "name": "articles",
       "schema": "",
       "columns": {
         "id": {
@@ -77,10 +77,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "zi_articles_user_id_zi_users_id_fk": {
-          "name": "zi_articles_user_id_zi_users_id_fk",
-          "tableFrom": "zi_articles",
-          "tableTo": "zi_users",
+        "articles_user_id_users_id_fk": {
+          "name": "articles_user_id_users_id_fk",
+          "tableFrom": "articles",
+          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
@@ -97,8 +97,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.zi_image_usage_stats": {
-      "name": "zi_image_usage_stats",
+    "public.image_usage_stats": {
+      "name": "image_usage_stats",
       "schema": "",
       "columns": {
         "id": {
@@ -143,10 +143,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "zi_image_usage_stats_user_id_zi_users_id_fk": {
-          "name": "zi_image_usage_stats_user_id_zi_users_id_fk",
-          "tableFrom": "zi_image_usage_stats",
-          "tableTo": "zi_users",
+        "image_usage_stats_user_id_users_id_fk": {
+          "name": "image_usage_stats_user_id_users_id_fk",
+          "tableFrom": "image_usage_stats",
+          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
@@ -163,8 +163,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.zi_publish_presets": {
-      "name": "zi_publish_presets",
+    "public.publish_presets": {
+      "name": "publish_presets",
       "schema": "",
       "columns": {
         "id": {
@@ -247,10 +247,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "zi_publish_presets_user_id_zi_users_id_fk": {
-          "name": "zi_publish_presets_user_id_zi_users_id_fk",
-          "tableFrom": "zi_publish_presets",
-          "tableTo": "zi_users",
+        "publish_presets_user_id_users_id_fk": {
+          "name": "publish_presets_user_id_users_id_fk",
+          "tableFrom": "publish_presets",
+          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
@@ -267,8 +267,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.zi_publish_records": {
-      "name": "zi_publish_records",
+    "public.publish_records": {
+      "name": "publish_records",
       "schema": "",
       "columns": {
         "id": {
@@ -330,10 +330,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "zi_publish_records_article_id_zi_articles_id_fk": {
-          "name": "zi_publish_records_article_id_zi_articles_id_fk",
-          "tableFrom": "zi_publish_records",
-          "tableTo": "zi_articles",
+        "publish_records_article_id_articles_id_fk": {
+          "name": "publish_records_article_id_articles_id_fk",
+          "tableFrom": "publish_records",
+          "tableTo": "articles",
           "columnsFrom": [
             "article_id"
           ],
@@ -343,10 +343,10 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "zi_publish_records_user_id_zi_users_id_fk": {
-          "name": "zi_publish_records_user_id_zi_users_id_fk",
-          "tableFrom": "zi_publish_records",
-          "tableTo": "zi_users",
+        "publish_records_user_id_users_id_fk": {
+          "name": "publish_records_user_id_users_id_fk",
+          "tableFrom": "publish_records",
+          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
@@ -363,8 +363,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.zi_redeem_codes": {
-      "name": "zi_redeem_codes",
+    "public.redeem_codes": {
+      "name": "redeem_codes",
       "schema": "",
       "columns": {
         "id": {
@@ -432,10 +432,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "zi_redeem_codes_used_by_zi_users_id_fk": {
-          "name": "zi_redeem_codes_used_by_zi_users_id_fk",
-          "tableFrom": "zi_redeem_codes",
-          "tableTo": "zi_users",
+        "redeem_codes_used_by_users_id_fk": {
+          "name": "redeem_codes_used_by_users_id_fk",
+          "tableFrom": "redeem_codes",
+          "tableTo": "users",
           "columnsFrom": [
             "used_by"
           ],
@@ -448,8 +448,8 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "zi_redeem_codes_code_unique": {
-          "name": "zi_redeem_codes_code_unique",
+        "redeem_codes_code_unique": {
+          "name": "redeem_codes_code_unique",
           "nullsNotDistinct": false,
           "columns": [
             "code"
@@ -460,8 +460,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.zi_users": {
-      "name": "zi_users",
+    "public.users": {
+      "name": "users",
       "schema": "",
       "columns": {
         "id": {
@@ -563,8 +563,8 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "zi_users_email_unique": {
-          "name": "zi_users_email_unique",
+        "users_email_unique": {
+          "name": "users_email_unique",
           "nullsNotDistinct": false,
           "columns": [
             "email"
@@ -575,8 +575,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.zi_video_contents": {
-      "name": "zi_video_contents",
+    "public.video_contents": {
+      "name": "video_contents",
       "schema": "",
       "columns": {
         "id": {
@@ -603,6 +603,48 @@
           "primaryKey": false,
           "notNull": true
         },
+        "video_title": {
+          "name": "video_title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "video_description": {
+          "name": "video_description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "speech_script": {
+          "name": "speech_script",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tags": {
+          "name": "tags",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cover_suggestion": {
+          "name": "cover_suggestion",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "platform_tips": {
+          "name": "platform_tips",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "estimated_duration": {
+          "name": "estimated_duration",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
         "short_title": {
           "name": "short_title",
           "type": "varchar(100)",
@@ -615,20 +657,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "tags": {
-          "name": "tags",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
         "hashtags": {
           "name": "hashtags",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "speech_script": {
-          "name": "speech_script",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -650,10 +680,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "zi_video_contents_article_id_zi_articles_id_fk": {
-          "name": "zi_video_contents_article_id_zi_articles_id_fk",
-          "tableFrom": "zi_video_contents",
-          "tableTo": "zi_articles",
+        "video_contents_article_id_articles_id_fk": {
+          "name": "video_contents_article_id_articles_id_fk",
+          "tableFrom": "video_contents",
+          "tableTo": "articles",
           "columnsFrom": [
             "article_id"
           ],
@@ -663,10 +693,10 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "zi_video_contents_user_id_zi_users_id_fk": {
-          "name": "zi_video_contents_user_id_zi_users_id_fk",
-          "tableFrom": "zi_video_contents",
-          "tableTo": "zi_users",
+        "video_contents_user_id_users_id_fk": {
+          "name": "video_contents_user_id_users_id_fk",
+          "tableFrom": "video_contents",
+          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
