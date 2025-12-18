@@ -14,11 +14,17 @@ function getDb() {
   }
 
   // 获取数据库连接字符串
-  // 支持 DATABASE_URL 或 SUPABASE_DB_URL
-  const connectionString = process.env.DATABASE_URL || process.env.SUPABASE_DB_URL;
+  // Vercel Supabase Integration 会自动设置 POSTGRES_URL
+  // 也支持手动设置 DATABASE_URL 或 SUPABASE_DB_URL
+  const connectionString =
+    process.env.POSTGRES_URL ||
+    process.env.DATABASE_URL ||
+    process.env.SUPABASE_DB_URL;
 
   if (!connectionString) {
-    throw new Error('DATABASE_URL or SUPABASE_DB_URL environment variable must be set');
+    throw new Error(
+      'Database URL not found. Please set one of: POSTGRES_URL, DATABASE_URL, or SUPABASE_DB_URL environment variable'
+    );
   }
 
   console.log('🔗 Connecting to Supabase PostgreSQL database...');

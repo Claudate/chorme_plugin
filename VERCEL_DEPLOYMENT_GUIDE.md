@@ -7,7 +7,12 @@
 Error: DATABASE_URL or SUPABASE_DB_URL environment variable must be set
 ```
 
-这个错误发生在构建阶段,表明环境变量没有被正确加载。
+这个错误发生在构建阶段,表明数据库连接字符串的环境变量没有被正确设置。
+
+代码支持以下任意一个环境变量名(按优先级):
+1. `POSTGRES_URL` - Vercel Supabase Integration 自动设置
+2. `DATABASE_URL` - 通用数据库连接字符串
+3. `SUPABASE_DB_URL` - 自定义名称
 
 ## 解决方案
 
