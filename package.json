@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "npm run db:migrate:vercel && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "test:wechat:fill": "node ./scripts/test-wechat-fill.mjs",
