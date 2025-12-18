@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "npm run db:fix-names && npm run db:migrate:vercel && next build",
     "start": "next start",
+    "db:fix-names": "tsx scripts/fix-table-names.ts",
     "lint": "next lint",
     "test:wechat:fill": "node ./scripts/test-wechat-fill.mjs",
     "test:wechat:cdp": "node ./scripts/cdp-wechat-fill.mjs",
