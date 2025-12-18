@@ -246,6 +246,48 @@ npm run db:init
 
 ### 常见 Vercel 错误
 
+#### Error: connect ENETUNREACH (IPv6 连接错误)
+
+**症状**:
+```
+Error: connect ENETUNREACH 2600:1f18:2e13:9d18:....:5432 - Local (:::0)
+at internalConnect (node:net:1110:16)
+```
+
+**原因**:
+- Vercel 不支持 IPv6
+- 使用了 Supabase 直连地址 (`db.[project-ref].supabase.co`)，该地址只返回 IPv6
+- 从 2024年1月15日起，Supabase 停止为新项目分配 IPv4 地址
+
+**解决方案**:
+
+必须使用 Supabase Pooler (Supavisor) 地址，它支持 IPv4：
+
+```bash
+# ❌ 错误 - 使用直连地址 (仅 IPv6)
+DATABASE_URL=postgresql://postgres:[PWD]@db.xxx.supabase.co:5432/postgres
+
+# ✅ 正确 - 使用 Pooler 地址 (支持 IPv4)
+# Transaction Mode - 推荐用于 Vercel/Serverless (端口 6543)
+DATABASE_URL=postgresql://postgres.[REF]:[PWD]@aws-0-[REGION].pooler.supabase.com:6543/postgres
+
+# 或 Session Mode (端口 5432)
+DATABASE_URL=postgresql://postgres.[REF]:[PWD]@aws-0-[REGION].pooler.supabase.com:5432/postgres
+```
+
+**获取正确的连接字符串**:
+1. 登录 [Supabase Dashboard](https://supabase.com/dashboard)
+2. 选择你的项目
+3. 进入 Project Settings → Database
+4. 在 "Connection Pooling" 部分复制 "Connection string"
+5. 选择 "Transaction" 模式（推荐用于 Vercel）
+
+**参考文档**:
+- [Supabase IPv4/IPv6 兼容性](https://supabase.com/docs/guides/troubleshooting/supabase--your-network-ipv4-and-ipv6-compatibility-cHe3BP)
+- [GitHub Discussion #17817](https://github.com/orgs/supabase/discussions/17817)
+
+---
+
 #### Error: Too many connections
 
 **原因**: 使用端口 5432 (直连) 导致连接数耗尽
